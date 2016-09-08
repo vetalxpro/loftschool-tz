@@ -3,8 +3,11 @@ extends layouts/_layout
 block title
     title ls-tz
 
-append styles
-
+prepend styles
+    //link(rel='stylesheet' href='css/normalize.css')
+    //link(rel='stylesheet' href='css/reset.css')
+    //link(rel='stylesheet' href='../')
+    link(rel='stylesheet' href="../bower_components/font-awesome/css/font-awesome.min.css")
 append scripts
 
 block content
