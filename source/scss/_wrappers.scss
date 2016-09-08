@@ -1,35 +1,48 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 html,
 body {
-  height: 100%;
-  width: 100%;
+    height: 100%;
+    width: 100%;
 }
 
 body {
-  background: url("../img/gplaypattern.png") repeat;
-  @include font('fira_sans-light');
-  font-size:14px;
-  line-height: 1.25;
-  color: #727272;
+    background: url("../img/gplaypattern.png") repeat;
+    @include font('fira_sans-light');
+    font-size: 14px;
+    line-height: 1.25;
+    color: #727272;
 }
 
 .wrapper {
-  min-height: 100%;
-  margin-bottom: -72px;
+    min-height: 100%;
+    margin-bottom: -72px;
 
-  &:after {
-    content: "";
-    display: block;
-    height: 72px;
-  }
+    &:after {
+        content: "";
+        display: block;
+        height: 72px;
+    }
 }
 
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.main {
+    padding: 0 130px;
+}
+
+.clearfix:before,
+.clearfix:after{
+    content: '';
+    display: table;
+}
+.clearfix:after{
+    clear: both;
 }

@@ -51,7 +51,11 @@ section.courses
                         h3.corses__list-title= course.title
                         p.courses__list-text= course.text
                         .courses__list-time
-                            i(class='fa fa-clock-o' aria-hidden='true')= course.time
-                        .courses-check
-                            i(class='fa fa-square-o' aria-hidden='true')
-                            span Посмотрел
+                            i(class='fa fa-clock-o' aria-hidden='true')
+                            span= course.time
+                    .courses-check
+                        i(class='fa fa-square-o' aria-hidden='true')
+                        span Посмотрел
+        .complete
+            i(class='fa fa-check' aria-hidden='true')
+            span Задание выполнено.

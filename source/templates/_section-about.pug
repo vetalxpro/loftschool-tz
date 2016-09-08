@@ -23,7 +23,7 @@ section.about
         ul.about__list.clearfix
             each content in contentAbout
                 li.about__list-item
-                    img(src=content.image alt='pic')
+                    img(src=content.image alt='pic' class='about-pic')
                     .about__list-info
                         h3.about__list-title= content.title
                         p.about__list-content!= content.content
