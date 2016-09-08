@@ -1,0 +1,12 @@
+header.header
+    .container.clearfix
+        .header__user
+            img(src='img/user.png')
+            .header__user-info
+                h1.header__user-name Быстров Борис Викторович
+                p.header__user-email bystrov@gmail.com
+            .header__social
+                ul.header__social-list
+                    each icon in ['fa-github','fa-skype','fa-vk']
+                        li.social-link
+                            i(class='fa '+ icon)

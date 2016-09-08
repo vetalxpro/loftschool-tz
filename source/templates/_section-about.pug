@@ -1,0 +1,30 @@
+-
+    var contentAbout = [
+    {
+    title:'Немного обо мне',
+    content:'Я живу в Санкт-Петербурге (Россия). Мне 26 лет. Высшее образование - закончил НИУ ИТМО. Опыт в разработке 1 год. Уже окончил курсы в Академии Программирования, где не плохо научился верстать. <br>Пока есть только один сайт, которым могу похвастаться: <a href="http://www.yandex.ru">www.yandex.ru</a>',
+    image:'icons/hello.svg'
+    },
+    {
+    title:'Мой опыт в разработке',
+    content:'В этом блоке я расскажу о себе, что я уже умею. Здесь я укажу другие курсы, которые до этого я уже проходил. Могу перечислить технологии, которыми уже умею пользоваться. К примеру: html5, css3, sass, jade, git и пр.',
+    image:'icons/experience.svg'
+    }
+    ]
+
+
+
+
+
+section.about
+    .container
+        h2.about-title О будущем ученике
+        p.about-subtitle Ребятам из Loftschool будет полезно узнать немного обо мне
+        ul.about__list.clearfix
+            each content in contentAbout
+                li.about__list-item
+                    img(src=content.image alt='pic')
+                    .about__list-info
+                        h3.about__list-title= content.title
+                        p.about__list-content!= content.content
+

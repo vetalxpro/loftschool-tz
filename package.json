@@ -1,0 +1,25 @@
+{
+  "name": "loftschool-tz",
+  "version": "1.0.0",
+  "description": "loftschool test task",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vetalxpro/loftschool-tz.git"
+  },
+  "keywords": [
+    "loftschool"
+  ],
+  "author": "Vitalii Doroshenko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vetalxpro/loftschool-tz/issues"
+  },
+  "homepage": "https://github.com/vetalxpro/loftschool-tz#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
+}
