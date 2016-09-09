@@ -7,11 +7,17 @@ html
 
         block title
             title Page Title
+        block vendor-styles
+        //build:css css/vendor.css
 
-        block styles
-            link(rel='stylesheet' href='bower_components/normalize-css/normalize.css')
-            link(rel='stylesheet' href='bower_components/reset-css/reset.css')
+        //bower:css
+        //endbower
 
+        //endbuild
+
+        //build:css css/main.css
+        block main-styles
+        //endbuild
 
 
     body
@@ -19,7 +25,16 @@ html
 
         block footer
 
-        block scripts
+        //build:js js/vendor.js
+
+        //bower:js
+        //endbower
+
+        //endbuild
+
+        //build:js js/main.js
+        block main-scripts
+        //endbuild
 
 
 
