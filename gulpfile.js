@@ -1,3 +1,5 @@
+"use strict";
+
 var gulp = require('gulp'),
     sourcemaps = require('gulp-sourcemaps'),
     autoprefixer = require('gulp-autoprefixer'),
@@ -5,7 +7,7 @@ var gulp = require('gulp'),
     pug = require('gulp-pug');
 
 gulp.task('sass', function () {
-  return gulp.src('./source/scss/**/*.scss')
+  return gulp.src('./app/scss/*.scss')
       .pipe(sourcemaps.init())
       .pipe(sass({
         outputStyle: 'expanded'
@@ -14,24 +16,26 @@ gulp.task('sass', function () {
         browsers: ['last 4 versions']
       }))
       .pipe(sourcemaps.write('.'))
-      .pipe(gulp.dest('./source/css'));
+      .pipe(gulp.dest('./app/css'));
 });
 
 gulp.task('sass:watch', function () {
-  gulp.watch('./source/scss/**/*.scss', ['sass']);
+  gulp.watch('./app/scss/**/*.scss', ['sass']);
 });
 
+
 gulp.task('jade', function () {
-  return gulp.src('./source/*.pug')
+  return gulp.src('./app/jade/*.pug')
       .pipe(pug({
         pretty: true
       }))
-      .pipe(gulp.dest('./source/'));
+      .pipe(gulp.dest('./app/'));
 });
 
 gulp.task('jade:watch', function () {
-  gulp.watch('./source/**/*.pug', ['jade']);
+  gulp.watch('./app/jade/**/*.pug', ['jade']);
 });
+
 
 
 gulp.task('default', function () {

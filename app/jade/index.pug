@@ -3,10 +3,14 @@ extends layouts/_layout
 block title
     title ls-tz
 
-prepend styles
-    link(rel='stylesheet' href='bower_components/normalize-css/normalize.css')
+append styles
     link(rel='stylesheet' href="bower_components/font-awesome/css/font-awesome.min.css")
+    link(rel='stylesheet' href='css/style.css')
+
 append scripts
+    script(src='js/jquery.min.js')
+    script(src='js/script.js')
+
 
 block content
     .wrapper
@@ -14,5 +18,8 @@ block content
         include templates/_section-about
         include templates/_section-courses
 
-block foot
+
+block footer
     include templates/_footer
+
+
