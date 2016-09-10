@@ -1,28 +1,21 @@
 @font-face {
-  font-family: 'fira_sans-regular';
-  src: url('../fonts/firasans-regular-webfont.woff2') format('woff2'),
-  url('../fonts/firasans-regular-webfont.woff') format('woff');
+  font-family: fira_sans-light;
+  src: url('../fonts/FiraSans-Light.ttf');
   font-weight: normal;
   font-style: normal;
-
 }
 
 @font-face {
-  font-family: 'fira_sans-medium';
-  src: url('../fonts/firasans-medium-webfont.woff2') format('woff2'),
-  url('../fonts/firasans-medium-webfont.woff') format('woff');
+  font-family: fira_sans-regular;
+  src: url(../fonts/FiraSans-Regular.ttf);
   font-weight: normal;
   font-style: normal;
-
 }
 
 @font-face {
-  font-family: 'fira_sans-light';
-  src: url('../fonts/firasans-light-webfont.woff2') format('woff2'),
-  url('../fonts/firasans-light-webfont.woff') format('woff');
+  font-family: fira_sans-medium;
+  src: url(../fonts/FiraSans-Medium.ttf);
   font-weight: normal;
   font-style: normal;
-
 }
-
 

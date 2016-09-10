@@ -23,12 +23,13 @@
     margin-top: 110px;
     text-align: center;
     @include font('fira_sans-medium');
+    line-height:1.25;
     font-size: 42px;
     color: #262626;
 }
 
 .courses-subtitle {
-    margin-top: 15px;
+    margin-top: 12px;
     text-align: center;
     @include font('fira_sans-light');
     font-size: 21px;
@@ -50,7 +51,7 @@
 .courses__list-item {
     margin-right: 20px;
     display: inline-block;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     width: 300px;
     text-align: left;
     font-size: 14px;
@@ -64,6 +65,9 @@
         .courses-check,
         .courses-check .fa{
             color: #9dc255;
+        }
+        .courses__list-title{
+            color: #727272;
         }
     }
     &:hover{
@@ -82,13 +86,14 @@
 
 .courses__list-content {
 
-    padding: 15px 21px;
+    padding: 17px 21px;
 }
 
 .courses__list-title {
     @include font('fira_sans-regular');
     font-size: 21px;
-    line-height: 1.33;
+    color: #000;
+    line-height: 1.1;
 }
 
 .courses__list-text {
@@ -97,7 +102,7 @@
 }
 
 .courses__list-time {
-    padding-top: 10px;
+    padding-top: 12px;
     color: #b5b5b5;
 
     .fa {
@@ -106,7 +111,7 @@
 }
 
 .courses-check {
-    padding: 20px 20px 17px;
+    padding: 17px 20px 17px 20px;
     @include font('fira_sans-regular');
     font-size:18px;
     background: #f6f7f2;

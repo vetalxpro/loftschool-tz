@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  var $courses = $('.courses__list-item');
-  $courses.on('click', function () {
+  // var $courses = $('.courses__list-item');
+  $('.courses__list').on('click','li', function () {
     var curElement = $(this);
     curElement.addClass('selected');
     $('.fa.fa-square-o', this)          //change font-awesome icon
@@ -20,7 +20,7 @@ $(document).ready(function () {
     }).appendTo(curElement.css('position', 'relative'));      //append  overlay to courses__list-item
 
 
-    curElement.delay(1000).fadeOut(300);
+    curElement.delay(1000).fadeOut(400);
 
     setTimeout(function () {
       curElement.remove();
@@ -29,7 +29,7 @@ $(document).ready(function () {
         $('.courses-title, .courses-subtitle').css({visibility: 'hidden'});
         $('.complete').fadeIn(800);
       }
-    }, 1305);
+    }, 1405);
 
   });
 });

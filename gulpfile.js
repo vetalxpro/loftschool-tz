@@ -133,6 +133,9 @@ gulp.task('serve:tmp', function (cb) {
     // files: ["app/*.html", "app/css/*.css", "app/js/*.js"]
     port: 8769,
     // logConnections: true,
+    ui: {
+      port: 8770
+    },
     open: 'local',
     notify: true
   }, hello);
@@ -154,6 +157,9 @@ gulp.task('serve:dist', function (cb) {
     // proxy: "localhost:8888"
     files: [bases.dist + '**/*'],
     port: 8779,
+    ui: {
+      port: 8780
+    },
     // logConnections: true,
     open: 'local',
     notify: true
