@@ -1,10 +1,12 @@
+$footer-bg: #262626;
+
 .footer {
     min-height: 72px;
     padding: 10px 0;
-    background: #262626;
+    background: $footer-bg;
 
     .footer__text {
-        margin:0 auto;
+        margin: 0 auto;
         max-width: 520px;
         padding: 5px;
         text-align: center;

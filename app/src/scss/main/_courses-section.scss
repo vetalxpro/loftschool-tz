@@ -1,5 +1,6 @@
 .courses {
-    padding-bottom: 3px;
+    padding-bottom: 5px;
+    padding-top: 110px;
 
     .container {
         position: relative;
@@ -20,7 +21,7 @@
 }
 
 .courses-title {
-    margin-top: 110px;
+
     text-align: center;
     @include font('fira_sans-medium');
     line-height:1.25;
