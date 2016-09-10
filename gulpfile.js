@@ -1,9 +1,13 @@
 "use strict";
 
 var gulp = require('gulp'),
-    browserSync = require('browser-sync').create(),
+    browserSyncTmp = require('browser-sync').create(),
+    browserSyncDist = require('browser-sync').create(),
     runSequence = require('run-sequence'),
     sourcemaps = require('gulp-sourcemaps'),
+    size = require('gulp-size'),
+    newer = require('gulp-newer'),
+    //cache = require('gulp-cache'),
     autoprefixer = require('gulp-autoprefixer'),
     sass = require('gulp-sass'),
     pug = require('gulp-pug'),
@@ -13,28 +17,30 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     minifyCss = require('gulp-clean-css'),
     del = require('del'),
-    wiredep = require('wiredep').stream;
+    wiredep = require('wiredep').stream,
+    sftp = require('gulp-sftp');
 
 
 //------------------------PATHS----------------------------------
 var bases = {
   app: 'app/',
   dist: 'dist/',
+  tmp: '.tmp/'
 };
 
 var paths = {
   scripts: ['js/**/*.js'],
-  styles: ['css/**/*.css'],
+  styles: {css: 'css/**/*.css'},
   html: ['index.html'],
-  images: ['resource/img/**/*.png', 'resource/img/**/*.jpg'],
-  fonts: ['resource/fonts/**/*'],
-  icons: ['resource/icons/**/*']
+  images: ['res/img/**/*.{jpg,png,gif}'],
+  fonts: ['res/fonts/**/*'],
+  icons: ['res/icons/**/*']
 };
 
 //----------------- SASS -------------------------
 
 gulp.task('sass', function () {
-  return gulp.src(bases.app + 'scss/*.scss')
+  return gulp.src(bases.app + 'src/scss/*.scss')
       .pipe(sourcemaps.init())
       .pipe(sass({
         outputStyle: 'expanded'
@@ -42,26 +48,60 @@ gulp.task('sass', function () {
       .pipe(autoprefixer({
         browsers: ['last 4 versions']
       }))
+      .pipe(size({title: 'sass'}))
       .pipe(sourcemaps.write('.'))
-      .pipe(gulp.dest(bases.app + 'css/'))
-      .pipe(browserSync.stream({match: '**/*.css'}));           //reload page with browsersync
+      .pipe(gulp.dest(bases.app + '.tmp/css/'))
+      .pipe(browserSyncTmp.stream({match: '**/*.css'}));           //reload page with browsersync
 });
 
 
-//-------------------------jade(+wiredep)-------------------------
+//-------------------------JADE(+wiredep)-------------------------
 
 gulp.task('jade', function () {
-  return gulp.src(bases.app + 'jade/*.pug')
+  return gulp.src(bases.app + 'src/jade/*.pug')
       .pipe(pug({
         pretty: true
       }))
-      .pipe(gulp.dest(bases.app))
+      .pipe(gulp.dest(bases.app + '.tmp/'))
       .pipe(wiredep({
-        direcory: bases.app + 'bower_components/'
+        direcory: bases.app + '.tmp/bower_components/'
       }))
-      .pipe(gulp.dest(bases.app))
-      .pipe(browserSync.stream());  //reload page
+      .pipe(size({title: 'jade'}))
+      .pipe(gulp.dest(bases.app + '.tmp/'))
+      .pipe(browserSyncTmp.stream());  //reload page
 
+});
+
+//-------------------------JS-------------------------
+
+gulp.task('scripts', function () {
+  return gulp.src(bases.app + 'src/js/**/*.js')
+      .pipe(gulp.dest(bases.app + '.tmp/js'))
+      .pipe(size({title: 'scripts'}))
+      .pipe(browserSyncTmp.stream());        //reload page
+});
+
+//--------------------copy-res-------------------------
+
+gulp.task('copy:res', function (cb) {
+  gulp.src(bases.app + 'res/fonts/**/*')
+      .pipe(newer(bases.app + '.tmp/fonts'))
+      .pipe(size({title: 'fonts'}))
+      .pipe(gulp.dest(bases.app + '.tmp/fonts'))
+      .pipe(browserSyncTmp.stream());   //reload page
+
+  gulp.src(bases.app + 'res/img/**/*')
+      .pipe(newer(bases.app + '.tmp/img'))
+      .pipe(size({title: 'img'}))
+      .pipe(gulp.dest(bases.app + '.tmp/img'))
+      .pipe(browserSyncTmp.stream());   //reload page
+
+  gulp.src(bases.app + 'res/icons/**/*')
+      .pipe(newer(bases.app + '.tmp/icons'))
+      .pipe(size({title: 'icons'}))
+      .pipe(gulp.dest(bases.app + '.tmp/icons'))
+      .pipe(browserSyncTmp.stream());   //reload page
+  cb();
 });
 
 
@@ -81,10 +121,13 @@ function hello() {
   console.log('Ready for work ;)');
 }
 
-gulp.task('serve', function () {
-  browserSync.init({
+gulp.task('serve:tmp', function (cb) {
+  browserSyncTmp.init({
     server: {
-      baseDir: bases.app
+      baseDir: bases.app + '.tmp',
+      routes: {
+        "/bower_components": "app/bower_components"
+      }
     },
     // proxy: "localhost:8888"
     // files: ["app/*.html", "app/css/*.css", "app/js/*.js"]
@@ -93,52 +136,94 @@ gulp.task('serve', function () {
     open: 'local',
     notify: true
   }, hello);
-  gulp.watch(bases.app + 'scss/**/*.scss', ['sass']);
-  gulp.watch(bases.app + 'jade/**/*.pug', ['jade']);
-  // browserSync.watch("*.html").on("change", browserSync.reload);
+  gulp.watch(bases.app + 'res/**/*', ['copy:res']);
+  gulp.watch(bases.app + 'src/scss/**/*.scss', ['sass']);
+  gulp.watch(bases.app + 'src/jade/**/*.pug', ['jade']);
+  gulp.watch(bases.app + 'src/js/**/*.js', ['scripts']);
+  // browserSync.watch(bases.app + "*.html").on("change", browserSync.reload);
+  cb();
 
 
 });
 
-
-//============================== DEPLOY =====================================
-
-//useref (сборка в dist)
-gulp.task('dist', function () {
-  return gulp.src(bases.app + '*.html')
-      .pipe(useref())
-      .pipe(gulpif('*.js', uglify()))
-      .pipe(gulpif('*.css', minifyCss()))
-      .pipe(gulp.dest(bases.dist));
+gulp.task('serve:dist', function (cb) {
+  browserSyncDist.init({
+    server: {
+      baseDir: bases.dist
+    },
+    // proxy: "localhost:8888"
+    files: [bases.dist + '**/*'],
+    port: 8779,
+    // logConnections: true,
+    open: 'local',
+    notify: true
+  });
+  cb();
 });
+
+
+//============================== BUILD and DEPLOY =====================================
 
 // Delete the dist directory
 gulp.task('clean', function () {
   return del.sync(bases.dist);
 });
 
-// Imagemin images and ouput them in dist
-gulp.task('copyImg', function () {
+// Optimize images
+/*gulp.task('images', function () {
+ gulp.src('app/images/!**!/!*')
+ .pipe($.cache($.imagemin({
+ progressive: true,
+ interlaced: true
+ })))
+ .pipe(gulp.dest('dist/images'))
+ .pipe($.size({title: 'images'}));
+ });*/
+
+
+gulp.task('build : dist', ['clean'], function () {
+
   gulp.src(paths.images, {cwd: bases.app})
-  // .pipe(imagemin())
-      .pipe(gulp.dest(bases.dist + 'resource/img/'));
-});
+      .pipe(size({
+        title: 'images'
+      }))
+      .pipe(gulp.dest(bases.dist + 'img/'));
 
-gulp.task('copyFonts', function () {
   gulp.src(paths.fonts, {cwd: bases.app})
-      .pipe(gulp.dest(bases.dist + 'resource/fonts/'));
-});
+      .pipe(size({
+        title: 'fonts'
+      }))
+      .pipe(gulp.dest(bases.dist + 'fonts/'));
 
-gulp.task('copyIcons', function () {
   gulp.src(paths.icons, {cwd: bases.app})
-      .pipe(gulp.dest(bases.dist + 'resource/icons/'));
+      .pipe(size({
+        title: 'icons'
+      }))
+      .pipe(gulp.dest(bases.dist + 'icons/'));
+
+  return gulp.src(bases.app + '.tmp/index.html')
+      .pipe(useref())
+      .pipe(gulpif('*.js', uglify()))
+      .pipe(gulpif('*.css', minifyCss()))
+      .pipe(size({
+        showFiles: true,
+        title: 'main files'
+      }))
+      .pipe(gulp.dest(bases.dist));
 });
 
-gulp.task('deploy', ['clean', 'copyImg', 'copyFonts', 'copyIcons', 'dist']);
+gulp.task('sftp', function () {
+  return gulp.src(bases.dist + '**/*')
+      .pipe(sftp({
+        host: '',
+        user: '',
+        pass: ''
+      }));
+});
 
 //==================================================================
 
 
 gulp.task('default', function () {
-  runSequence(['sass','jade'], 'serve');
+  runSequence(['sass', 'jade', 'scripts', 'copy:res'], 'serve:tmp');
 });
