@@ -156,7 +156,6 @@ gulp.task('serve:dist', function (cb) {
       baseDir: bases.dist
     },
     // proxy: "localhost:8888"
-    files: [bases.dist + '**/*'],
     port: 8779,
     ui: {
       port: 8780
